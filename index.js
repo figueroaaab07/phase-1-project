@@ -19,10 +19,23 @@ document.addEventListener("DOMContentLoaded", () => {
     divSelector.appendChild(divScrollMenu);
     let imageContainer = document.querySelector("#object-image-container");
     imageContainer.className = "row";
+    let divFooter = document.createElement('div');
+    divFooter.className = "footer";
+    let firstFooterElement = document.createElement('a');
+    firstFooterElement.className = "footer-item";
+    firstFooterElement.href = "#";
+    firstFooterElement.innerText = "The Met Fifth Avenue";
+    let secondFooterElement = document.createElement('a');
+    secondFooterElement.className = "footer-item";
+    secondFooterElement.href = "#";
+    secondFooterElement.innerText = "The Met Cloisters";
+    divFooter.appendChild(firstFooterElement);
+    divFooter.appendChild(secondFooterElement);
     let bodyElement = document.querySelector("body");
     divContainer.appendChild(divHeader);
     divContainer.appendChild(divSelector);
     divContainer.appendChild(imageContainer);
+    divContainer.appendChild(divFooter);
     bodyElement.appendChild(divContainer);
   }
   createHtmlBase();

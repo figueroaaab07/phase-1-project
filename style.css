@@ -79,6 +79,20 @@ body {
   text-align: center;
 }
 
+.footer {
+  background-color: #8b0000;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.footer-item {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
 /* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 800px) {
   .column {
