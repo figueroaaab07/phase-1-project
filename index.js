@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   function createHtmlBase() {
+    let divContainer = document.createElement('div');
+    divContainer.className = "grid-container";
     let divHeader = document.createElement('div');
     divHeader.className = "header";
     let pHeader = document.createElement("p");
@@ -8,26 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
     divHeader.appendChild(document.querySelector("h1"));
     divHeader.appendChild(pHeader);
     let divSelector = document.createElement('div');
-    divSelector.className = "dropdown";
-    let aSelector = document.createElement("a");
-    aSelector.className = "btn btn-secondary dropdown-toggle";
-    aSelector.setAttribute("role", "button");
-    aSelector.id = "dropdownMenuLink";
-    aSelector.setAttribute("data-bs-toggle", "dropdown");
-    aSelector.setAttribute("aria-expanded", "false");
-    aSelector.textContent = "Please Select Department  ";
-    let ulMenu = document.createElement('ul');
-    ulMenu.className = "dropdown-menu";
-    ulMenu.id = "selector";
-    ulMenu.setAttribute("aria-labelledby", "dropdownMenuLink");
-    divSelector.appendChild(aSelector);
-    divSelector.appendChild(ulMenu);
-     let imageContainer = document.querySelector("#object-image-container");
+    divSelector.className = "scrollselector";
+    let pSelector = document.createElement("p");
+    pSelector.textContent = "Please Select Collection to See Sample";
+    let divScrollMenu = document.createElement('div');
+    divScrollMenu.className = "scrollmenu";
+    divSelector.appendChild(pSelector);
+    divSelector.appendChild(divScrollMenu);
+    let imageContainer = document.querySelector("#object-image-container");
     imageContainer.className = "row";
     let bodyElement = document.querySelector("body");
-    bodyElement.appendChild(divHeader);
-    bodyElement.appendChild(divSelector);
-    bodyElement.appendChild(imageContainer);
+    divContainer.appendChild(divHeader);
+    divContainer.appendChild(divSelector);
+    divContainer.appendChild(imageContainer);
+    bodyElement.appendChild(divContainer);
   }
   createHtmlBase();
 
@@ -35,16 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("https://collectionapi.metmuseum.org/public/collection/v1/departments")
     .then(res => res.json())
     .then(departmentsData => departmentsData["departments"].forEach(department => {
-      let selectorElement = document.querySelector('#selector');
-      let liElement = document.createElement('li');
+      let selectorElement = document.querySelector('.scrollmenu');
       let optionElement = document.createElement('a');
-      optionElement.className = "dropdown-item";
+      optionElement.className = "scrollmenu-item";
       optionElement.href = "#";
       optionElement.innerText = department["displayName"];
       optionElement.id = department["departmentId"];
-      // optionElement.addEventListener("click", optionCb)
-      liElement.appendChild(optionElement);
-      selectorElement.appendChild(liElement);
+      optionElement.addEventListener("click", optionCb)
+      selectorElement.appendChild(optionElement);
     }))
   }
   populateSelector();
@@ -80,17 +74,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function optionCb(event) {
     event.preventDefault();
     document.querySelector("#object-image-container").innerHTML = "";
-    // let selection = event.target.selectedIndex + 1;
     let selection = event.target.id;
     console.log(selection);
-    renderImagesByDepartment(selection.toString());
+    renderImagesByDepartment(selection);
   }
 
-  function getValueSelector() {
-    let optionSelected = document.querySelector("#selector");
-    optionSelected.addEventListener("click", optionCb)
-  }
+  // function getValueSelector() {
+  //   let optionSelected = document.querySelector("#selector");
+  //   optionSelected.addEventListener("click", optionCb)
+  // }
 
   renderImagesByDepartment(departmentId = "1");
-  getValueSelector();
+  // getValueSelector();
 })
