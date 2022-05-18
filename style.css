@@ -14,26 +14,23 @@ body {
   padding: 12px;
 }
 
-.header img {
-  width: 100px;
-  height: 100px;
-}
-
-.header h1 {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 32pt;
+h1 {
+  font-size: 2em;
   font-weight: bold;
   color: #8b0000;
 }
 
 .header p {
-  font-size: 24pt;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
-.scrollselector p {
-  font-size: 20pt;
+h2 {
+  font-size: 1.25em;
   font-weight: bold;
+}
+
+.scrollselector h2 {
   text-align: center;
 }
 
@@ -74,23 +71,63 @@ body {
 }
 
 .column p {
-  font-size: 12pt;
+  font-size: .875em;
   font-weight: bold;
   text-align: center;
 }
 
-.footer {
-  background-color: #8b0000;
-  overflow: auto;
-  white-space: nowrap;
+.footer h2 {
+  padding-left: 14px;
 }
 
-.footer-item {
-  display: inline-block;
-  color: white;
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem;
+  width: 24rem;
+  border-radius: 0.5rem;
+}
+
+.modal-content img {
+  height: 235px;
+  width: 335px;
+}
+
+.close-button {
+  float: right;
+  width: 1.5rem;
+  line-height: 1.5rem;
   text-align: center;
-  padding: 14px;
-  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  background-color: lightgray;
+}
+
+.close-button:hover {
+  background-color: darkgray;
+}
+
+.show-modal {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
