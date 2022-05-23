@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // adding elements to body
     bodyElement.appendChild(divContainer);
   }
-  // executing function to create HTML Base
-  createHtmlBase();
 
   // displaying objects onclick selection department
   function optionCb(event) {
@@ -69,7 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function populateSelector() {
     // fetching departments data through Met API
     fetch("https://collectionapi.metmuseum.org/public/collection/v1/departments")
-    .then(res => res.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Status code error: " + response.status);
+      }
+    })
+    // .then(res => res.json())
     .then(departmentsData => departmentsData["departments"].forEach(department => {
       let selectorElement = document.querySelector('.scrollmenu');
       // creating data container for each data element
@@ -82,15 +87,22 @@ document.addEventListener("DOMContentLoaded", () => {
       // adding element to scroll menu selector
       selectorElement.appendChild(optionElement);
     }))
+    .catch(error => alert(error))
   }
-  // executing function to populate scroll menu selector
-  populateSelector();
 
   // getting object data for ID
   function getObjectData(objectID) {
     // fetching object data through Met API
     return  fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`)
-            .then(res => res.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error("Status code error: " + response.status);
+              }
+            })
+            .catch(error => alert(error))
+            // .then(res => res.json())
   }
 
   // displaying object image and description 
@@ -118,12 +130,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderImagesByDepartment(departmentId = "1") {
     // fetching department data through Met API
     return  fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${departmentId}`)
-            .then(res => res.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                throw new Error("Status code error: " + response.status);
+              }
+            })
+            // .then(res => res.json())
             .then(objectsByDepartment => objectsByDepartment["objectIDs"].sort(() =>.5- Math.random()).slice(0, 4))
             // agregating data object promises into departments promises
             .then(objectsIDsSelected => Promise.all(objectsIDsSelected.map(objectID => getObjectData(objectID))))
             // executing function to display each selected object
             .then(objectsData => objectsData.map(objectData => renderOneObject(objectData)))
+            .catch(error => alert(error))
   }
 
   // getting Met Image and Address Location onclick footer-item
@@ -181,6 +201,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // console.log(modal);
     modal.remove();
   }
+  // executing function to create HTML Base
+  createHtmlBase();
+
+  // executing function to populate scroll menu selector
+  populateSelector();
 
   // executing function to populate image container
   renderImagesByDepartment(departmentId = "1");
